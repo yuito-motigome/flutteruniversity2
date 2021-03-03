@@ -1,103 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:flutteruniversity2/secound.dart';
-
+import 'package:flutteruniversity2/main_model.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final items = List<String>.generate(1000, (index) => "$index 番目のアイテム");
+  final String sampletext = "Youhaveflutter.";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: Colors.white 
-          
-        
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: 
-      Scaffold(
-      appBar: AppBar(
+      ChangeNotifierProvider<MainModel>(
+        create: (_){return MainModel();},
+        child: Scaffold( 
         
-        centerTitle: true,
-        title: Text("mytube"),
-        actions: [
-          SizedBox(
-          width: 40,
-          child:
-          FlatButton(onPressed: (){
-            //todo
-          }, child: Icon(Icons.search)),),
-          SizedBox(
-          width: 40,
-          child:
-          FlatButton(onPressed: (){
-            //todo
-          }, child: Icon(Icons.more_vert))),
-          ],
-        leading: Image.asset("images/youtube.png"),
-        
-      ),
-      body:Container(
-        child: 
-        Column(children: [
-          Row(children: [
-            SizedBox( child:Image.asset("images/picture.jpg"),
-            width: 80,
-            height: 60,),
+        appBar: AppBar(
+    
+          title: Text("provider"),
+        ),
+        body: 
+        Consumer<MainModel>(builder: (context,model,child){
+            return Center(
             
-            const SizedBox(
-              width: 8,
+            child: Column(
+              
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  model.sampletext,
+                ),
+                RaisedButton(onPressed: (){model.changeSampleText();},
+                child:Text("OK")
+                )
 
+              ],
             ),
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                const Text("上森チャンネル",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),
-                FlatButton(onPressed: (){
-                  //todo
-                }, 
-                  child: Row(children: [
-                  Icon(Icons.video_call,color: Colors.red,),
-                  Text("登録する",style: TextStyle(fontSize: 12),),
-                  Text("チャンネル登録者数　9999人",style: TextStyle(fontSize: 10),)
-                  
-                  
-                ],))
-                
-              ],)  
-            
-          ],),
-          Expanded(
-                      child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context,index){
-                return ListTile(
-                  leading: Image.asset("images/picture.jpg"),
-                  title: Column(children: [
-                    Text("Youtube初投稿",style: TextStyle(fontWeight: FontWeight.bold),),
-                    Row(children: [
-                      Text(
-                        "9999回再生",
-                        style: TextStyle(fontSize: 9),
-                      ),
-                      Text(
-                        "9日前",
-                        style: TextStyle(fontSize: 9),)
-                    ],)
-                  ],),
-                  
-                  
-                  trailing: Icon(Icons.more_vert),
-                );
-              }
-              ),
-          )
-        ],),
-      )
-      
+          );
+        }),
+    ),
       ),
     );
   }
